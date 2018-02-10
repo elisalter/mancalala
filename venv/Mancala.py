@@ -22,7 +22,7 @@ def updateBoardState(boardState, player, colummChoice):
 
     currentColumn = colummChoice
     if (player == 1):
-        direction = -1
+        direction = -1 # TODO make enum
     else:
         direction = 1
 
@@ -33,8 +33,8 @@ def updateBoardState(boardState, player, colummChoice):
 
         currentColumn = currentColumn + direction
 
-        # if at a home square, switch the board state
-        if (currentColumn == 0 and player == 1) or (currentColumn == 7 and player == 2):
+        # if at a mancala and it's a home
+        if (currentColumn == 0 and player == 1 and boardSide == 0) or (currentColumn == 7 and player == 2 and boardSide == 1):
 
             boardState[boardSide][currentColumn] = boardState[boardSide][currentColumn] + 1
 
@@ -44,6 +44,20 @@ def updateBoardState(boardState, player, colummChoice):
             else: #boardSide == 1 (landed at 1,7)
                 boardSide = 0
                 direction = -1
+
+        # if at a mancala and it's not a home
+        elif (currentColumn == 0 and boardSide == 0 and player == 2) or (currentColumn == 7 and boardSide == 1 and player == 2):
+
+            if (boardSide == 0): # (landed at 0,0)
+                boardSide = 1
+                direction = 1
+                currentColumn = 1
+            else: #boardSide == 1 (landed at 1,7)
+                boardSide = 0
+                direction = -1
+                currentColumn = 6
+
+            boardState[boardSide][currentColumn] = boardState[boardSide][currentColumn] + 1
         else:
             boardState[boardSide][currentColumn] = boardState[boardSide][currentColumn] + 1
 
