@@ -63,8 +63,20 @@ def updateBoardState(boardState, player, colummChoice):
 
     return boardState;
 
+def isValidInput(boardState, columnSelection, player):
+    if (columnSelection > 6 or columnSelection < 1 or boardState[player-1][columnSelection] == 0):
+        printIllegalMove(player)
+        return False
+
+    return True
+
+def printIllegalMove(player):
+    print("\n")
+    print("==== I\'m sorry player " + str(player) + " that is an invalid move, please try again ====")
+    print("\n")
+
 # initialise boardstate, 1st array represents player 1
-boardState = [[0, 4, 4, 4, 4, 4, 4, None], [None, 4, 4, 4, 4, 4, 8, 0]];
+boardState = [[0, 4, 4, 4, 4, 4, 4, None], [None, 4, 4, 4, 4, 4, 4, 0]];
 playersTurn = 1;
 finished = False;
 
@@ -77,12 +89,13 @@ print("-------------------------------------------------------------");
 while(finished == False):
     printBoard(boardState);
     columnToMove = input("Player " + str(playersTurn) + " which column of stones would you like to move?\n")
-    boardState = updateBoardState(boardState, playersTurn, columnToMove);
-    # update players turn
-    if (playersTurn == 1):
-        playersTurn = 2
-    else:
-        playersTurn = 1
+    if (isValidInput(boardState, columnToMove, playersTurn)):
+        boardState = updateBoardState(boardState, playersTurn, columnToMove);
+        # update players turn
+        if (playersTurn == 1):
+            playersTurn = 2
+        else:
+            playersTurn = 1
 
 
 
